@@ -1,0 +1,5 @@
+profile: kafka
+defaultPackage: com.sourcemancien
+---
+testFramework: junit
+sourceLanguage: java

@@ -1,0 +1,31 @@
+---
+micronaut:
+  application:
+    name: multiple-kafka
+---
+kafka:
+  consumers:
+    avro-consumer:
+      bootstrap.servers: localhost:9092
+      schema.registry.url: http://localhost:8081
+      auto.register.schema: false
+      auto.offset.reset: earliest
+      enable.auto.commit: true
+      fetch.min.bytes: 1
+      partition.assignment.strategy: "org.apache.kafka.clients.consumer.StickyAssignor"
+      specific.avro.reader: true
+      key.deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+      value.deserializer: "io.confluent.kafka.serializers.KafkaAvroDeserializer"
+      security.protocol: "SASL_PLAINTEXT"
+      sasl:
+        mechanism: "SCRAM-SHA-512"
+        jaas.config: "${auth.jaas.module} required username=\"${auth.username}\" password=\"${auth.password}\";"
+    simple-consumer:
+      bootstrap.servers: localhost:9092
+      key.deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+      value.deserializer: "io.confluent.kafka.serializers.StringDeserializer"
+    producers:
+      simple-producer:
+        bootstrap.servers: localhost:9092
+        key.serializer: "org.apache.kafka.common.serialization.StringSerializer"
+        value.serializer: "io.confluent.kafka.serializers.StringSerializer"
